@@ -1,9 +1,5 @@
 # Stacks — Library/Inventory Management System
 
-A full-stack library management system built for SDE placement portfolios:
-Spring Boot backend with transactional borrow/return logic, JWT auth, a
-scheduled overdue job, and an admin reporting module; React frontend for
-members and admins.
 
 ```
 library-system/
