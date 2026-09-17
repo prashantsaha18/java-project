@@ -1,0 +1,381 @@
+:root {
+  /* Palette — an old library card catalog: forest-green drawer fronts, brass
+     pulls and rivets, kraft index cards, red rubber-stamp ink. */
+  --ink: #201c16;
+  --ink-soft: #4a4237;
+  --paper: #ece2c8;
+  --paper-raised: #fbf6ea;
+  --cover-green: #1f3d2b;
+  --cover-green-dark: #142719;
+  --brass: #a9762f;
+  --brass-bright: #c98f3c;
+  --rule: #d4c39a;
+  --stamp: #9c2b2b;
+  --stamp-bg: #f6e6e2;
+  --danger: var(--stamp);
+  --danger-bg: var(--stamp-bg);
+
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'IBM Plex Sans', -apple-system, sans-serif;
+  --mono: 'IBM Plex Mono', 'Courier New', monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  /* faint kraft-fiber texture instead of a flat fill */
+  background-color: var(--paper);
+  background-image:
+    repeating-linear-gradient(0deg, rgba(32,28,22,0.015) 0px, rgba(32,28,22,0.015) 1px, transparent 1px, transparent 3px),
+    repeating-linear-gradient(90deg, rgba(32,28,22,0.01) 0px, rgba(32,28,22,0.01) 1px, transparent 1px, transparent 3px);
+}
+
+h1, h2, h3 {
+  font-family: var(--serif);
+  color: var(--cover-green-dark);
+  margin: 0;
+  font-weight: 600;
+}
+
+a { color: var(--cover-green); text-decoration: none; }
+
+button {
+  font-family: var(--sans);
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+}
+
+input, select {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+}
+
+.btn {
+  padding: 0.55rem 1.1rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  border-radius: 3px;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  background: var(--cover-green);
+  color: var(--paper-raised);
+}
+.btn-primary:hover { background: var(--cover-green-dark); }
+.btn-primary:disabled { background: #93a394; cursor: not-allowed; }
+
+.btn-brass {
+  background: var(--brass);
+  color: var(--paper-raised);
+}
+.btn-brass:hover { background: #8f611f; }
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+}
+.btn-outline:hover { border-color: var(--cover-green); color: var(--cover-green); }
+
+.btn-danger {
+  background: var(--stamp);
+  color: var(--paper-raised);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+}
+.field label {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+.field input, .field select {
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  background: var(--paper-raised);
+  color: var(--ink);
+}
+.field input:focus, .field select:focus {
+  outline: 2px solid var(--brass-bright);
+  outline-offset: 1px;
+}
+
+.error-banner {
+  background: var(--stamp-bg);
+  color: var(--stamp);
+  padding: 0.7rem 0.9rem;
+  border-radius: 3px;
+  font-size: 0.88rem;
+  margin-bottom: 1rem;
+  border-left: 3px solid var(--stamp);
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.pill-active { background: #e2ecdf; color: var(--cover-green-dark); }
+.pill-overdue { background: var(--stamp-bg); color: var(--stamp); }
+.pill-returned { background: #eae6db; color: var(--ink-soft); }
+
+table th, table td {
+  text-align: left;
+  padding: 0.65rem 0.9rem;
+  border-bottom: 1px solid var(--rule);
+}
+table th {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  font-weight: 600;
+  background: #e6dcc0;
+}
+table tr:last-child td { border-bottom: none; }
+
+/* ---------- Index-card catalog entries ---------- */
+/* Each book reads as a library index card: a punched tab at the top
+   (like the reinforcement hole on a real catalog card), a perforated
+   bottom edge, and a slight resting rotation so a full grid feels like
+   cards fanned out in a drawer rather than a uniform SaaS grid. */
+
+.index-card {
+  position: relative;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  padding: 1.3rem 1.2rem 1.5rem;
+  box-shadow: 0 1px 0 var(--rule);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.index-card::before {
+  /* the punched reinforcement hole, top-left, like a real filing card */
+  content: '';
+  position: absolute;
+  top: 0.65rem;
+  left: 0.9rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
+}
+.index-card::after {
+  /* perforated tear edge along the bottom */
+  content: '';
+  position: absolute;
+  left: 0.6rem;
+  right: 0.6rem;
+  bottom: 0;
+  height: 1px;
+  background-image: radial-gradient(circle, var(--paper) 1.1px, transparent 1.2px);
+  background-size: 8px 1px;
+  background-position: bottom;
+}
+.index-card:hover {
+  transform: translateY(-2px) rotate(var(--card-tilt, 0deg));
+  box-shadow: 0 6px 14px rgba(32,28,22,0.14);
+}
+
+/* ---------- Rubber-stamp moment ---------- */
+/* The one deliberate animated moment in the app: when a borrow succeeds,
+   a due-date stamp drops onto the card and imprints at a rakish angle,
+   the way a librarian would actually stamp a due-date slip. */
+
+@keyframes stampDrop {
+  0%   { opacity: 0; transform: translateY(-40px) rotate(-18deg) scale(1.6); }
+  60%  { opacity: 1; transform: translateY(4px) rotate(-10deg) scale(0.94); }
+  80%  { transform: translateY(-1px) rotate(-10deg) scale(1.03); }
+  100% { opacity: 1; transform: translateY(0) rotate(-10deg) scale(1); }
+}
+
+.due-stamp {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  color: var(--stamp);
+  border: 2px solid var(--stamp);
+  border-radius: 3px;
+  padding: 0.2rem 0.5rem;
+  transform: rotate(-10deg);
+  background: rgba(156, 43, 43, 0.04);
+  mix-blend-mode: multiply;
+}
+.due-stamp.animate {
+  animation: stampDrop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+/* ---------- Library membership card (auth screens) ---------- */
+
+.library-card {
+  position: relative;
+  background: var(--paper-raised);
+  border-radius: 10px;
+  width: 380px;
+  padding: 2rem 2.2rem 1.8rem;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  border-top: none;
+  overflow: hidden;
+}
+.library-card::before {
+  /* the brass corner rivet, top-right — a physical-card detail */
+  content: '';
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brass-bright), var(--brass));
+  box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+.library-card-band {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 8px;
+  background: linear-gradient(90deg, var(--cover-green), var(--brass) 50%, var(--cover-green));
+}
+.library-card-barcode {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 26px;
+  margin-top: 1.4rem;
+  opacity: 0.55;
+}
+.library-card-barcode span {
+  display: block;
+  background: var(--ink);
+  height: 100%;
+}
+.library-card-barcode span:nth-child(3n) { height: 70%; }
+.library-card-barcode span:nth-child(5n) { height: 85%; }
+
+/* ---------- Admin: drawer-label tabs ---------- */
+/* The member side reads as index cards pulled from a drawer; the admin
+   side reads as the drawer fronts themselves — each section is a brass
+   label holder slid into a wooden drawer face, not a pill-button tab bar. */
+
+.drawer-front {
+  background: linear-gradient(180deg, #2a4a35, var(--cover-green));
+  border-radius: 3px 3px 0 0;
+  padding: 0.6rem 0.6rem 0;
+  display: flex;
+  gap: 0.4rem;
+}
+.drawer-tab {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.55rem 1.1rem;
+  border-radius: 3px 3px 0 0;
+  border: none;
+  background: rgba(243, 238, 226, 0.12);
+  color: #d9d1bd;
+  position: relative;
+  top: 1px;
+}
+.drawer-tab.active {
+  background: var(--paper-raised);
+  color: var(--cover-green-dark);
+  font-weight: 600;
+}
+.drawer-tab.active::before {
+  /* the brass label-holder pull on the active drawer */
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--brass);
+}
+.drawer-tab.active { padding-top: 0.85rem; }
+
+/* ---------- Admin: ledger sheets ---------- */
+/* Report tables and the add-book form read as pages from a ledger book:
+   a red margin rule down the left edge, the way ruled accounting paper
+   is printed, rather than a generic bordered card. */
+
+.ledger-sheet {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: 0 3px 3px 3px;
+  position: relative;
+  padding-left: 2.2rem;
+  overflow: hidden;
+}
+.ledger-sheet::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 1.6rem;
+  width: 1px;
+  background: #c98f8f;
+}
+.ledger-sheet table { table-layout: auto; }
+.ledger-sheet td, .ledger-sheet th { font-family: var(--sans); }
+.ledger-sheet td.num, .ledger-sheet th.num {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+}
+
+/* ---------- Catalog entrance: cards sliding out of the drawer ---------- */
+/* Cards arrive staggered and slightly offset, as if pulled out one after
+   another, rather than popping in all at once. */
+
+@keyframes cardSlideOut {
+  0%   { opacity: 0; transform: translateY(14px) rotate(0deg); }
+  100% { opacity: 1; transform: translateY(0) rotate(var(--card-tilt, 0deg)); }
+}
+.index-card.entering {
+  animation: cardSlideOut 0.38s ease-out both;
+}
+
+/* ---------- Admin: drawer-open transition ---------- */
+/* Switching admin tabs reads as pulling a different drawer open — the
+   panel drops and settles rather than just swapping content instantly. */
+
+@keyframes drawerOpen {
+  0%   { opacity: 0; transform: translateY(-10px) scaleY(0.97); transform-origin: top; }
+  100% { opacity: 1; transform: translateY(0) scaleY(1); transform-origin: top; }
+}
+.drawer-panel {
+  animation: drawerOpen 0.28s ease-out both;
+}
+
+/* ---------- Empty states ---------- */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.6rem;
+  padding: 2.5rem 1rem;
+  color: var(--ink-soft);
+}
+.empty-state p { margin: 0; font-size: 0.92rem; }
+
