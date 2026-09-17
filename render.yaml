@@ -1,0 +1,42 @@
+databases:
+  - name: library-db
+    databaseName: library_db
+    user: library_user
+    plan: free
+
+services:
+  - type: web
+    name: library-backend
+    runtime: java
+    plan: free
+    rootDir: backend
+    buildCommand: chmod +x mvnw && ./mvnw clean package -DskipTests -q
+    startCommand: java -jar target/library-management-system-1.0.0.jar
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: DB_URL
+        fromDatabase:
+          name: library-db
+          property: connectionString
+      - key: DB_USERNAME
+        fromDatabase:
+          name: library-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: library-db
+          property: password
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRATION_MS
+        value: "86400000"
+      - key: SPRING_PROFILES_ACTIVE
+        value: "default"
+      - key: MAIL_HOST
+        value: "smtp.gmail.com"
+      - key: MAIL_PORT
+        value: "587"
+      - key: MAIL_USERNAME
+        value: ""
+      - key: MAIL_PASSWORD
+        value: ""
